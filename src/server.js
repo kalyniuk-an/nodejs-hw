@@ -24,25 +24,24 @@ app.use(
   }),
 );
 
-app.get('/notes', (reg, res) => {
+app.get('/notes', (req, res) => {
   res.status(200).json({ "message": "Retrieved all notes" });
 });
 
-app.get('/notes/:noteId', (reg, res) => {
-  const { noteId } = reg.params;
+app.get('/notes/:noteId', (req, res) => {
+  const { noteId } = req.params;
   res.status(200).json({ "message": `Retrieved note with ID: ${noteId}` });
 });
 
-app.get('/test-error', (reg, res) => {
-  throw new Error('Somthing went wrong');
+app.get('/test-error', (req, res) => {
+  throw new Error('Something went wrong');
 });
 
 app.use((reg, res) => {
-  res.status(404).json({ message: 'Routo noy found' });
+  res.status(404).json({ message: 'Route not found' });
 });
 
-app.use((err, reg, res, next) => {
-  console.error('Error:', err.message);
+app.use((err, req, res, next) => {
 
   const isProd = process.env.NODE_ENV === "production";
   res.status(500).json({
